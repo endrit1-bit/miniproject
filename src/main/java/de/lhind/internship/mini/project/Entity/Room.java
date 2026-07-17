@@ -1,10 +1,14 @@
 package de.lhind.internship.mini.project.Entity;
 
+import de.lhind.internship.mini.project.Enums.RoomStatus;
+import de.lhind.internship.mini.project.Enums.RoomType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.math.BigDecimal;
 
 @Entity
 @Setter
@@ -21,17 +25,20 @@ public class Room {
     @Column(name = "roomNumber")
     private String roomNumber;
 
-    @Column
-    private String roomType;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "roomType")
+    private RoomType roomType;
 
-    @Column
+    @Column(name = "capacity")
     private int capacity;
 
-    @Column
-    private double pricePerNight;
+    @Column(name = "pricePerNight")
+    private BigDecimal pricePerNight;
 
-    @Column
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private RoomStatus status;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hotel",referencedColumnName = "id")

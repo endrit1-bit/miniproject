@@ -22,29 +22,31 @@ public class HotelService {
     private HotelRepository hotelRepository;
     private RoomRepository roomRepository;
 
-    public Hotel save(HotelDTO hotelDTO) {
+    public ResponseEntity<HotelDTO> save(HotelDTO hotelDTO) {
 
         Hotel hotel = new Hotel();
-
         hotel.setName(hotelDTO.getName());
         hotel.setCity(hotelDTO.getCity());
         hotel.setAddress(hotelDTO.getAddress());
         hotel.setStarRating(hotelDTO.getStarRating());
+        Hotel savedHotel = hotelRepository.save(hotel);
 
-        return hotelRepository.save(hotel);
+        hotelDTO.setId(savedHotel.getId());
+        hotelDTO.setName(savedHotel.getName());
+        hotelDTO.setCity(savedHotel.getCity());
+        hotel.setAddress(hotel.getAddress());
+        hotel.setStarRating(savedHotel.getStarRating());
+
+       return new ResponseEntity<>(hotelDTO,HttpStatus.CREATED);
     }
 
 
-    public ResponseEntity<List<HotelDTO>> getAllHotels(Long hotelId) {
-        Optional<Hotel> hotel = hotelRepository.findById(hotelId);
-        if (hotel.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        Optional<Hotel> hotels = hotelRepository.findById(hotelId);
+    public ResponseEntity<List<HotelDTO>> getAllHotels() {
+        List<Hotel> hotels = hotelRepository.findAll();
 
         List<HotelDTO> hotelDTO = hotels.stream()
                 .map(hotel1 -> HotelDTO.builder()
+                        .id(hotel1.getId())
                         .name(hotel1.getName())
                         .address(hotel1.getAddress())
                         .city(hotel1.getCity())
@@ -52,34 +54,32 @@ public class HotelService {
                         .build())
                 .toList();
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(hotelDTO,HttpStatus.OK);
     }
 
-    public ResponseEntity<List<HotelDTO>> getHotelById(Long hotelId) {
+    public ResponseEntity<HotelDTO> getHotelById(Long hotelId) {
         Optional<Hotel> hotel = hotelRepository.findById(hotelId);
         if (hotel.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        Optional<Hotel> hotels = hotelRepository.findById(hotelId);
-        List<HotelDTO> hotelDTOS = hotels.stream()
-                .map(hotel1 -> HotelDTO.builder()
-                        .name(hotel1.getName())
-                        .city(hotel1.getCity())
-                        .address(hotel1.getAddress())
-                        .starRating(hotel1.getStarRating())
-                        .build())
-                .toList();
+        HotelDTO hotelDTO = HotelDTO.builder()
+                .id(hotel.get().getId())
+                .name(hotel.get().getName())
+                .address(hotel.get().getAddress())
+                .city(hotel.get().getCity())
+                .starRating(hotel.get().getStarRating())
+                .build();
 
-        return new ResponseEntity<>(hotelDTOS,HttpStatus.OK);
+
+        return new ResponseEntity<>(hotelDTO,HttpStatus.OK);
     }
 
-    public ResponseEntity<Void> updateHotel(Long hotelId) {
+    public ResponseEntity<Void> updateHotel(Long hotelId,HotelDTO hotelDTO) {
         Optional<Hotel> hotel = hotelRepository.findById(hotelId);
         if (hotel.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        HotelDTO hotelDTO = new HotelDTO();
 
         hotel.get().setName(hotelDTO.getName());
         hotel.get().setCity(hotelDTO.getCity());
@@ -88,6 +88,16 @@ public class HotelService {
 
         hotelRepository.save(hotel.get());
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+    public ResponseEntity<Void> deleteHotel(Long hotelId) {
+        Optional<Hotel> hotel = hotelRepository.findById(hotelId);
+        if (hotel.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        hotelRepository.deleteById(hotelId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
 
