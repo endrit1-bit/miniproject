@@ -21,9 +21,8 @@ public class HotelController {
     private HotelService hotelService;
 
     @PostMapping
-    public ResponseEntity<Void> createHotel(@Valid @RequestBody HotelDTO hotelDTO){
-        hotelService.save(hotelDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<HotelDTO> createHotel(@Valid @RequestBody HotelDTO hotelDTO){
+        return hotelService.save(hotelDTO);
     }
 
     @GetMapping
