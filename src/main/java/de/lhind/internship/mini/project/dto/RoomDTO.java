@@ -4,12 +4,14 @@ package de.lhind.internship.mini.project.dto;
 import de.lhind.internship.mini.project.Entity.Hotel;
 import de.lhind.internship.mini.project.Enums.RoomStatus;
 import de.lhind.internship.mini.project.Enums.RoomType;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Setter
 @Getter
@@ -20,7 +22,7 @@ public class RoomDTO {
 
     private Long id;
 
-    @NotBlank
+    @NotNull
     private String roomNumber;
 
     private RoomType roomType;
@@ -30,6 +32,10 @@ public class RoomDTO {
 
     @NotNull
     private BigDecimal pricePerNight;
+
+    @NotNull
     private RoomStatus status;
+
     private Long hotelId;
+
 }

@@ -1,17 +1,15 @@
 package de.lhind.internship.mini.project.Controller;
 
 
-import de.lhind.internship.mini.project.Entity.Hotel;
 import de.lhind.internship.mini.project.Service.HotelService;
 import de.lhind.internship.mini.project.dto.HotelDTO;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @RequestMapping("/api/hotels")
 @RestController
@@ -30,18 +28,18 @@ public class HotelController {
         return hotelService.getAllHotels();
     }
 
-    @GetMapping("/{Id}")
-    public ResponseEntity<HotelDTO> getHotelById(@PathVariable("Id") Long hotelId){
+    @GetMapping("/{id}")
+    public ResponseEntity<HotelDTO> getHotelById(@PathVariable("id") Long hotelId){
         return hotelService.getHotelById(hotelId);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateHotel(@PathVariable("Id") Long hotelId,@Valid @RequestBody HotelDTO hotelDTO){
+    public ResponseEntity<Void> updateHotel(@PathVariable("id") Long hotelId,@Valid @RequestBody HotelDTO hotelDTO){
         return hotelService.updateHotel(hotelId,hotelDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteHotel(@PathVariable("Id") Long hotelId){
+    public ResponseEntity<Void> deleteHotel(@PathVariable("id") Long hotelId){
         return hotelService.deleteHotel(hotelId);
     }
 

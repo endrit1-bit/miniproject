@@ -2,16 +2,16 @@ package de.lhind.internship.mini.project.Service;
 
 
 import de.lhind.internship.mini.project.Entity.Hotel;
-import de.lhind.internship.mini.project.Entity.Room;
+
 import de.lhind.internship.mini.project.Repository.HotelRepository;
-import de.lhind.internship.mini.project.Repository.RoomRepository;
+
 import de.lhind.internship.mini.project.dto.HotelDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.IllegalFormatCodePointException;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +20,6 @@ import java.util.Optional;
 public class HotelService {
 
     private HotelRepository hotelRepository;
-    private RoomRepository roomRepository;
 
     public ResponseEntity<HotelDTO> save(HotelDTO hotelDTO) {
 

@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Setter
@@ -43,4 +45,7 @@ public class Room {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hotel",referencedColumnName = "id")
     private Hotel hotel;
+
+    @OneToMany(mappedBy = "room",cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Reservation> reservations = new ArrayList<>();
 }
